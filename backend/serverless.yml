@@ -249,7 +249,7 @@ resources:
               AllowedHeaders:
                 - '*'
               AllowedMethods:
-               - GET
+                - GET
                 - PUT
                 - POST
                 - DELETE
