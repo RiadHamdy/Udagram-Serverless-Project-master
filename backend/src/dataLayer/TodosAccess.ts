@@ -16,7 +16,7 @@ export class TodosAccess {
 
   constructor(
     private readonly docClient: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
-    private readonly todosTable = process.env.TODOS_TABLE,
+    private readonly todosTable = process.env.TODO_TABLE,
     private readonly todosByUserIndex = process.env.TODOS_BY_USER_INDEX
   ) {}
 
