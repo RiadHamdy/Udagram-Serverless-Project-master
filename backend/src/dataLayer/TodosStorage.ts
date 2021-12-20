@@ -9,7 +9,7 @@ export class TodosStorage {
 
   constructor(
     private readonly s3 = new XAWS.S3({ signatureVersion: 'v4' }),
-    private readonly bucketName = process.env.ATTACHMENTS_S3_BUCKET,
+    private readonly bucketName = process.env.IMAGES_BUCKET,
     private readonly urlExpiration = process.env.SIGNED_URL_EXPIRATION
   ) {}
 
