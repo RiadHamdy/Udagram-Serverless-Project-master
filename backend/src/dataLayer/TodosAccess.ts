@@ -25,7 +25,7 @@ export class TodosAccess {
     return !!item
   }
 
-  async getTodoItems(userId: string): Promise<TodoItem[]> {
+  async getTodoItem(userId: string): Promise<TodoItem[]> {
     logger.info(`Getting all todos for user ${userId} from ${this.todosTable}`)
 
     const result = await this.docClient.query({
@@ -44,12 +44,13 @@ export class TodosAccess {
     return items as TodoItem[]
   }
 
-  async getTodoItem(todoId: string): Promise<TodoItem> {
-    logger.info(`Getting todo ${todoId} from ${this.todosTable}`)
+  async getTodoItems(userId: string, todoId: string): Promise<TodoItem> {
+    logger.info('Getting a todo by Id', {userId, todoId})
 
     const result = await this.docClient.get({
       TableName: this.todosTable,
       Key: {
+        userId,
         todoId
       }
     }).promise()
@@ -68,12 +69,13 @@ export class TodosAccess {
     }).promise()
   }
 
-  async updateTodoItem(todoId: string, todoUpdate: TodoUpdate) {
+  async updateTodoItem(userId: string, todoId: string, todoUpdate: TodoUpdate) {
     logger.info(`Updating todo item ${todoId} in ${this.todosTable}`)
 
     await this.docClient.update({
       TableName: this.todosTable,
       Key: {
+        userId,
         todoId
       },
       UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
@@ -88,23 +90,25 @@ export class TodosAccess {
     }).promise()   
   }
 
-  async deleteTodoItem(todoId: string) {
+  async deleteTodoItem(userId: string, todoId: string) {
     logger.info(`Deleting todo item ${todoId} from ${this.todosTable}`)
 
     await this.docClient.delete({
       TableName: this.todosTable,
       Key: {
+        userId,
         todoId
       }
     }).promise()    
   }
 
-  async updateAttachmentUrl(todoId: string, attachmentUrl: string) {
+  async updateAttachmentUrl(userId: string, todoId: string, attachmentUrl: string) {
     logger.info(`Updating attachment URL for todo ${todoId} in ${this.todosTable}`)
 
     await this.docClient.update({
       TableName: this.todosTable,
       Key: {
+        userId,
         todoId
       },
       UpdateExpression: 'set attachmentUrl = :attachmentUrl',

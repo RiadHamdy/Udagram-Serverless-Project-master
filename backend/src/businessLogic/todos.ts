@@ -18,7 +18,7 @@ const todosStorage = new TodosStorage()
 export async function getTodos(userId: string): Promise<TodoItem[]> {
   logger.info(`Retrieving all todos for user ${userId}`, { userId })
 
-  return await todosAccess.getTodoItems(userId)
+  return await todosAccess.getTodoItem(userId)
 }
 
 export async function createTodo(userId: string, createTodoRequest: CreateTodoRequest): Promise<TodoItem> {
@@ -53,7 +53,7 @@ export async function updateTodo(userId: string, todoId: string, updateTodoReque
     throw new Error('User is not authorized to update item')  // FIXME: 403?
   }
 
-  todosAccess.updateTodoItem(todoId, updateTodoRequest as TodoUpdate)
+  todosAccess.updateTodoItem(userId, todoId, updateTodoRequest as TodoUpdate)
 }
 
 export async function deleteTodo(userId: string, todoId: string) {
@@ -69,7 +69,7 @@ export async function deleteTodo(userId: string, todoId: string) {
     throw new Error('User is not authorized to delete item')  // FIXME: 403?
   }
 
-  todosAccess.deleteTodoItem(todoId)
+  todosAccess.deleteTodoItem(userId,todoId)
 }
 
 export async function updateAttachmentUrl(userId: string, todoId: string, attachmentId: string) {
@@ -89,7 +89,7 @@ export async function updateAttachmentUrl(userId: string, todoId: string, attach
     throw new Error('User is not authorized to update item')  // FIXME: 403?
   }
 
-  await todosAccess.updateAttachmentUrl(todoId, attachmentUrl)
+  await todosAccess.updateAttachmentUrl(userId, todoId, attachmentUrl)
 }
 
 export async function generateUploadUrl(attachmentId: string): Promise<string> {
