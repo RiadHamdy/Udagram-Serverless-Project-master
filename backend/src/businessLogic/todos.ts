@@ -43,7 +43,7 @@ export async function createTodo(userId: string, createTodoRequest: CreateTodoRe
 export async function updateTodo(userId: string, todoId: string, updateTodoRequest: UpdateTodoRequest) {
   logger.info(`Updating todo ${todoId} for user ${userId}`, { userId, todoId, todoUpdate: updateTodoRequest })
 
-  const item = await todosAccess.getTodoItem(todoId)
+  const item = await todosAccess.getTodoItems(userId, todoId)
 
   if (!item)
     throw new Error('Item not found')  // FIXME: 404?
@@ -59,7 +59,7 @@ export async function updateTodo(userId: string, todoId: string, updateTodoReque
 export async function deleteTodo(userId: string, todoId: string) {
   logger.info(`Deleting todo ${todoId} for user ${userId}`, { userId, todoId })
 
-  const item = await todosAccess.getTodoItem(todoId)
+  const item = await todosAccess.getTodoItems(userId, todoId)
 
   if (!item)
     throw new Error('Item not found')  // FIXME: 404?
@@ -79,7 +79,7 @@ export async function updateAttachmentUrl(userId: string, todoId: string, attach
 
   logger.info(`Updating todo ${todoId} with attachment URL ${attachmentUrl}`, { userId, todoId })
 
-  const item = await todosAccess.getTodoItem(todoId)
+  const item = await todosAccess.getTodoItems(userId, todoId)
 
   if (!item)
     throw new Error('Item not found')  // FIXME: 404?
